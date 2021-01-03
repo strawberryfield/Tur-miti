@@ -1,0 +1,30 @@
+<h1>                   Passeggiando con le Turmiti</h1>
+<p></p>
+<p></p>
+<p>Ancora una volta A.K.Dewdney ci propone nella sua rubrica mensile (Ri)creazioni al calcolatore un argomento piuttosto stimolante.</p>
+<p>Si trattaquesta volta di esseri (le turmiti appunto) che si muovono su un piano infinito di quadretti colorati, questi "esseri" ad ogni passo leggono il colore del quadretto su cui si trovano ed in base a questo e ad uno stato interno decidono come colorare il quadretto, su quale quadretto spostarsi ed il nuovo stato interno.</p>
+<p>Una turmite si comporta quindi come una macchina a stati finiti e nell'articolo citato viene paragonata ad una macchina di Turing che opera non su un nastro bens&igrave; su un piano in due dimensioni.</p>
+<p>Vedere queste turmiti all'opera &egrave; affascinante: prendiamo la semplice tabella ad un solo stato</p>
+<p></p>
+<table border="1">
+<tr><th>stato\colore</th><th>0</th><th>1</th></tr>
+<tr><td>A</td><td>1,A,destra</td><td>0,A,sinistra </td></tr>
+</table>
+<p>(&egrave; quella nel file PRIMA.TAB)</p>
+<p>vediamo che la turmite inizialmente vaga a caso poi inizia a tessere una struttura regolare che si propaga all'infinito.</p>
+<p>Nei programmi ci&ograve; non avviene perch&egrave; il piano dello schermo &egrave; ovviamente finito, ma &egrave; stato fatto diventare sferico  quindi prima o poi si reicontra la "galleria" gi&agrave; percorsa. A questo punto la turmite viaggia di nuovo a caso per un po' e poi riprende a tessere una nuova struttura regolare che pu&ograve; essere anche diversa dalla precedente.</p>
+<p>Ho provato ad estendere il "cervello" della turmite aggiungendo la possibilit&agrave; di gestire altri colori (mantenendo l'alternanza destra-sinistra e il passaggio al colore successivo o al colore 0 per l'ultimo) e qui sono venute le prime sorprese.</p>
+<p>Se infatti il numero dei colori &egrave; pari le strutture sono tutte piuttosto simili, se invece i colori sono in numero dispari innanzitutto devono essere almeno 9 perch&egrave; si ottenga una struttura ripetitiva altrimenti la turmite continua a girare in modo caotico. Inoltre se i colori sono 13 si ottiene una prima trama molto diversa dalle altre (che sia una forma di superstizione delle turmiti?)</p>
+<p>Ci&ograve; che si ottiene dipende anche dal punto di partenza e dalla risoluzione della scheda grafica perch&egrave; avremo le collisioni in punti diversi (io lavoro con una EGA a 350x640 16 colori) e quindi non vi resta che compilare il programma senza definire TABFILE per provare le varie combinazioni.</p>
+<p>Il programma va lanciato indicando come primo parametro sulla linea di comando il numero di colori da usare (almeno 2 ovviamente) ed eventualmente le coordinate iniziali (per default il centro dello schermo).</p>
+<p>L'elaborazione viene arrestata premendo un tasto e premendo Return si torna al dos.</p>
+<p></p>
+<p>Per gli sperimentatori pi&ugrave; incalliti ho previsto una seconda versione del programma che permette di specificare qualsiasi tabella di transizione che sar&agrave; contenuta in un file ASCII con estensione .TAB ed il cui nome dovr&agrave; essere specificato sulla linea di comando. Questo secondo programma si ottiene definendo il parametro TABFILE.</p>
+<p>Nel programma, in fase di compilazione, pu&ograve; essere definito anche il parametro BGILINK ed in tal caso verranno incorporati nel codice anche tutti i driver per le varie schede grafiche (pu&ograve; essere utile per la distribuzione tramite MC-link).</p>
+<p>Le possibili tabelle degli stati sono in numero infinito, l'unico limite &egrave; la nostra fantasia e la nostra tenacia di sperimentatori.</p>
+<p>Le istruzioni per redigere il file ASCII sono nel listato del programma: comunque si tratta di trasformare la matrice delle transizioni in un vettore leggendo la matrice per righe (tenendo conto che ogni riga rappresenta uno stato).</p>
+<p>Non mi resta che incitarvi a provare nuovi "cervelli" per queste turmiti e chiss&agrave; che qualcuno non riesca a creare un essere "intelligente"; comunque sicuramente riuscirete a produrre degli artisti come le foto documentano.</p>
+<p>Si possono anche dare degli spunti per proseguire gli esperimenti modificando opportunamente i programmi: che ne dite di vedere che cosa succede mettendo due turmiti contemporaneamente sullo stesso piano?  Oppure si potrebbe partire con un piano contenente gi&agrave; alcuni quadretti colorati. E se qualcuno "scoprisse" l'esistenza di turmiti tridimensionali?</p>
+<p>Buon lavoro e buon divertimento.</p>
+<p></p>
+<p></p>
