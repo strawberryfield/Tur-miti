@@ -7,8 +7,6 @@ program turmite;
          per maggiori informazioni cfr. Le Scienze #254 ottobre 89
 
          (c) copyright 1989  Roberto Ceccarelli
-                             via Covignano 3 - 47037 Rimini
-                             tel. 0541/783833
   -------------------------------------------------------------------------- *)
 
 uses graph,
@@ -29,12 +27,12 @@ var nx,ny,xc,yc,colore,stato,dirx,diry : integer;
     tabella : array[1..maxstati,0..maxcolori] of action;
 
 (* --------------------------------------------------------------------------
-   Il programma pu• essere compilato in due versioni:
+   Il programma puâ€¢ essere compilato in due versioni:
 
    1) Definendo il parametro TABFILE si ottiene il programma che carica
       la tabella di transizione da un file ASCII esterno
 
-   2) Se TABFILE non Š definito viene usata una tabella a schema fisso
+   2) Se TABFILE non Å  definito viene usata una tabella a schema fisso
       incorporata nel codice del programma
 
    per l'uso dei due programmi cfr. documentazione allegata
@@ -52,9 +50,9 @@ procedure startgraph;
    scheda grafica presente e rilevazione della risoluzione ammessa
 
    il driver BGI relativo alla scheda deve essere nella directory corrente,
-   in alternativa pu• essere incluso nel programma linkando anche
+   in alternativa puâ€¢ essere incluso nel programma linkando anche
    la unit BGILINK fornita con il compilatore
-   (si pu• ottenere definendo il parametro BGILINK)
+   (si puâ€¢ ottenere definendo il parametro BGILINK)
 *)
 var driver,mode : integer;
 begin
@@ -97,7 +95,7 @@ end;
 
 begin
 startgraph;
-gettabella;     (* questa funzione Š contenuta nei moduli da includere *)
+gettabella;     (* questa funzione Å  contenuta nei moduli da includere *)
 stato := 1;
 dirx := 0; diry := 1;
 (*
