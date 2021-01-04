@@ -19,6 +19,8 @@
 // along with Casasoft Turmiti.  
 // If not, see <http://www.gnu.org/licenses/>.
 
+using System.Configuration;
+
 namespace Casasoft.Turmiti.Engine
 {
     public class Machine
@@ -26,10 +28,22 @@ namespace Casasoft.Turmiti.Engine
         protected Rules rules;
         public int[,] World { get; set; }
 
+        private int stato = 1;
+        private int currentX;
+        private int currentY;
+        private int dirX = 0;
+        private int dirY = 1;
+
         public Machine(string filename)
         {
             rules = new(filename);
-            World = new int[1280, 720];
+
+            int width = int.Parse(ConfigurationManager.AppSettings["Width"]);
+            int height = int.Parse(ConfigurationManager.AppSettings["Height"]);
+            World = new int[width, height];
+
+            currentX = width / 2;
+            currentY = height / 2;
         }
     }
 }
