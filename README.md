@@ -27,3 +27,8 @@ Avevo infatti realizzato il programma presente in questo repository che avevo an
 Ho recuperato il floppy originale e l'ho salvato in questo repository, assieme alla documentazione,
 [convertita da WordStar con questo programma](https://strawberryfield.altervista.org/blog/wsconvert.php) che 
 avevo realizzato per un altro scopo.
+
+## Turmiti 2021
+
+Nella cartella **Turmiti2021** è presente una versione Windows del programma scritta in C# per Net 5.0
+che può utilizzare le vecchie tabelle delle regole.

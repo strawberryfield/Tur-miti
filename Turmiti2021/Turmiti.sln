@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30804.86
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Turmiti", "Turmiti\Turmiti.csproj", "{57AA665A-92CC-481E-886A-8E45E4D25FE7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TurmitiEngine", "TurmitiEngine\TurmitiEngine.csproj", "{40CA2F94-8108-4EF9-B04B-EFAD589BFD1A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{57AA665A-92CC-481E-886A-8E45E4D25FE7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{57AA665A-92CC-481E-886A-8E45E4D25FE7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{57AA665A-92CC-481E-886A-8E45E4D25FE7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{57AA665A-92CC-481E-886A-8E45E4D25FE7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{40CA2F94-8108-4EF9-B04B-EFAD589BFD1A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{40CA2F94-8108-4EF9-B04B-EFAD589BFD1A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{40CA2F94-8108-4EF9-B04B-EFAD589BFD1A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{40CA2F94-8108-4EF9-B04B-EFAD589BFD1A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B00346F5-5B67-44BC-994D-9C1CE82E3C70}
+	EndGlobalSection
+EndGlobal

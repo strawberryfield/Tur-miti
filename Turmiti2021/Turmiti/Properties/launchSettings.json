@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Turmiti": {
+      "commandName": "Project",
+      "commandLineArgs": "C:\\projects\\Turmiti\\examples\\PRIMA.TAB"
+    }
+  }
+}
