@@ -20,6 +20,7 @@
 // If not, see <http://www.gnu.org/licenses/>.
 
 using Casasoft.Turmiti.Engine;
+using System;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -28,7 +29,7 @@ namespace Casasoft.Turmiti
     public partial class TurmitiForm : Form
     {
         private Machine machine;
-        private bool screenFilled;
+        private Graphics g;
         
         public TurmitiForm()
         {
@@ -39,8 +40,13 @@ namespace Casasoft.Turmiti
         {
             machine = new(filename);
             ClientSize = new(machine.MaxX, machine.MaxY);
-            screenFilled = false;
-            Refresh();
+            g = CreateGraphics();
+        }
+
+        protected override void OnShown(EventArgs e)
+        {
+            base.OnShown(e);
+            g.FillRectangle(colorTable[0], 0, 0, machine.MaxX, machine.MaxY);
         }
 
         private void TurmitiForm_KeyDown(object sender, KeyEventArgs e)
@@ -65,26 +71,13 @@ namespace Casasoft.Turmiti
 
         protected  void backgroundWorker_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
         {
-
-        }
-
-
-        private Brush[] colorTable = { Brushes.Black, Brushes.White, Brushes.Red, Brushes.Blue };
-        protected override void OnPaint(PaintEventArgs e)
-        {
-            base.OnPaint(e);
-            
-            if (machine == null) return;
-
-            if(!screenFilled)
+            while (!backgroundWorker.CancellationPending)
             {
-                screenFilled = true;
-                e.Graphics.FillRectangle(colorTable[0], 0, 0, machine.MaxX, machine.MaxY);
+                machine.Next();
+                g.FillRectangle(colorTable[machine.CurrentColor], machine.currentX, machine.currentY, 1, 1);
             }
-            
-            e.Graphics.FillRectangle(colorTable[machine.CurrentColor], machine.currentX, machine.currentY, 1, 1);
-
-            
         }
+
+        private Brush[] colorTable = { Brushes.Black,  Brushes.Red, Brushes.Blue, Brushes.White };                  
     }
 }

@@ -2,7 +2,7 @@
   "profiles": {
     "Turmiti": {
       "commandName": "Project",
-      "commandLineArgs": "C:\\Users\\r.ceccarelli\\source\\repos\\Tur-miti\\examples\\PRIMA.TAB"
+      "commandLineArgs": "C:\\projects\\Turmiti\\examples\\PRIMA.TAB"
     }
   }
 }
