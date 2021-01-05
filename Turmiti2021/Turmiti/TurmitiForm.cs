@@ -28,7 +28,8 @@ namespace Casasoft.Turmiti
     public partial class TurmitiForm : Form
     {
         private Machine machine;
-
+        private bool screenFilled;
+        
         public TurmitiForm()
         {
             InitializeComponent();
@@ -37,7 +38,53 @@ namespace Casasoft.Turmiti
         public TurmitiForm(string filename) : this()
         {
             machine = new(filename);
+            ClientSize = new(machine.MaxX, machine.MaxY);
+            screenFilled = false;
+            Refresh();
         }
 
+        private void TurmitiForm_KeyDown(object sender, KeyEventArgs e)
+        {
+            switch(e.KeyCode)
+            {
+                case Keys.Space:
+                    if(backgroundWorker.IsBusy)
+                    {
+                        backgroundWorker.CancelAsync();
+                    }
+                    else
+                    {
+                        backgroundWorker.RunWorkerAsync();
+                    }
+                    break;
+
+                default:
+                    break;
+            }     
+        }
+
+        protected  void backgroundWorker_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
+        {
+
+        }
+
+
+        private Brush[] colorTable = { Brushes.Black, Brushes.White, Brushes.Red, Brushes.Blue };
+        protected override void OnPaint(PaintEventArgs e)
+        {
+            base.OnPaint(e);
+            
+            if (machine == null) return;
+
+            if(!screenFilled)
+            {
+                screenFilled = true;
+                e.Graphics.FillRectangle(colorTable[0], 0, 0, machine.MaxX, machine.MaxY);
+            }
+            
+            e.Graphics.FillRectangle(colorTable[machine.CurrentColor], machine.currentX, machine.currentY, 1, 1);
+
+            
+        }
     }
 }

@@ -31,10 +31,12 @@ namespace Casasoft.Turmiti.Engine
         public int MaxY { get; init; }
 
         private int stato = 1;
-        private int currentX;
-        private int currentY;
+        public int currentX { get; private set; }
+        public int currentY { get; private set; }
         private int dirX = 0;
         private int dirY = 1;
+        private int nextX;
+        private int nextY;
 
         public Machine(string filename)
         {
@@ -44,8 +46,15 @@ namespace Casasoft.Turmiti.Engine
             MaxY = int.Parse(ConfigurationManager.AppSettings["Height"]);
             World = new int[MaxX, MaxY];
 
-            currentX = MaxX / 2;
-            currentY = MaxY / 2;
+            nextX = MaxX / 2;
+            nextY = MaxY / 2;
+            nextToCurrent();
+        }
+
+        private void nextToCurrent()
+        {
+            currentX = nextX;
+            currentY = nextY;
         }
 
         /// <summary>
@@ -54,8 +63,8 @@ namespace Casasoft.Turmiti.Engine
         public void Next()
         {
             // fetch data
-            int colore = World[currentX, currentY];
-            Rule rule = rules.Get(stato, colore);
+            nextToCurrent();
+            Rule rule = rules.Get(stato, CurrentColor);
 
             // modify status
             stato = rule.NextStatus;
@@ -81,14 +90,14 @@ namespace Casasoft.Turmiti.Engine
             }
 
             // move
-            currentX += dirX;
-            currentY += dirY;
+            nextX = currentX + dirX;
+            nextY = currentY + dirY;
 
             // bounds check
-            if (currentX < 0) currentX += MaxX;
-            if (currentX >= MaxX) currentX -= MaxX;
-            if (currentY < 0) currentY += MaxY;
-            if (currentY >= MaxY) currentY -= MaxY;
+            if (nextX < 0) nextX += MaxX;
+            if (nextX >= MaxX) nextX -= MaxX;
+            if (nextY < 0) nextY += MaxY;
+            if (nextY >= MaxY) nextY -= MaxY;
         }
 
         private void swapDir()
@@ -100,5 +109,6 @@ namespace Casasoft.Turmiti.Engine
 
         private static void chs(ref int n) => n = -n;
 
+        public int CurrentColor => World[currentX, currentY];
     }
 }

@@ -49,7 +49,13 @@ namespace Casasoft.Turmiti
         /// </summary>
         private void InitializeComponent()
         {
+            this.backgroundWorker = new System.ComponentModel.BackgroundWorker();
             this.SuspendLayout();
+            // 
+            // backgroundWorker
+            // 
+            this.backgroundWorker.WorkerSupportsCancellation = true;
+            this.backgroundWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker_DoWork);
             // 
             // TurmitiForm
             // 
@@ -58,11 +64,14 @@ namespace Casasoft.Turmiti
             this.ClientSize = new System.Drawing.Size(394, 243);
             this.Name = "TurmitiForm";
             this.Text = "Turmiti";
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TurmitiForm_KeyDown);
             this.ResumeLayout(false);
 
         }
 
         #endregion
+
+        private System.ComponentModel.BackgroundWorker backgroundWorker;
     }
 }
 
