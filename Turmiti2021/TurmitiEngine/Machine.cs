@@ -25,8 +25,10 @@ namespace Casasoft.Turmiti.Engine
 {
     public class Machine
     {
-        protected Rules rules;
+        private Rules rules;
         public int[,] World { get; set; }
+        public int MaxX { get; init; }
+        public int MaxY { get; init; }
 
         private int stato = 1;
         private int currentX;
@@ -38,12 +40,65 @@ namespace Casasoft.Turmiti.Engine
         {
             rules = new(filename);
 
-            int width = int.Parse(ConfigurationManager.AppSettings["Width"]);
-            int height = int.Parse(ConfigurationManager.AppSettings["Height"]);
-            World = new int[width, height];
+            MaxX = int.Parse(ConfigurationManager.AppSettings["Width"]);
+            MaxY = int.Parse(ConfigurationManager.AppSettings["Height"]);
+            World = new int[MaxX, MaxY];
 
-            currentX = width / 2;
-            currentY = height / 2;
+            currentX = MaxX / 2;
+            currentY = MaxY / 2;
         }
+
+        /// <summary>
+        /// Switch to next status
+        /// </summary>
+        public void Next()
+        {
+            // fetch data
+            int colore = World[currentX, currentY];
+            Rule rule = rules.Get(stato, colore);
+
+            // modify status
+            stato = rule.NextStatus;
+            World[currentX, currentY] = rule.NextColor;
+            switch (rule.Direction)
+            {
+                case Directions.forward:
+                    break;
+                case Directions.backward:
+                    chs(ref dirX);
+                    chs(ref dirY);
+                    break;
+                case Directions.left:
+                    swapDir();
+                    if (dirY != 0) chs(ref dirY);
+                    break;
+                case Directions.right:
+                    swapDir();
+                    if (dirX != 0) chs(ref dirX);
+                    break;
+                default:
+                    break;
+            }
+
+            // move
+            currentX += dirX;
+            currentY += dirY;
+
+            // bounds check
+            if (currentX < 0) currentX += MaxX;
+            if (currentX >= MaxX) currentX -= MaxX;
+            if (currentY < 0) currentY += MaxY;
+            if (currentY >= MaxY) currentY -= MaxY;
+        }
+
+        private void swapDir()
+        {
+            int d = dirX;
+            dirX = dirY;
+            dirY = d;
+        }
+
+        private static void chs(ref int n) => n = -n;
+
     }
 }
