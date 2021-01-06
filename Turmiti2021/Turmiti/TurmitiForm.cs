@@ -21,7 +21,11 @@
 
 using Casasoft.Turmiti.Engine;
 using System;
+using System.Configuration;
 using System.Drawing;
+using System.Drawing.Imaging;
+using System.IO;
+using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
 namespace Casasoft.Turmiti
@@ -30,6 +34,7 @@ namespace Casasoft.Turmiti
     {
         private Machine machine;
         private Graphics g;
+        private string saveName;
         
         public TurmitiForm()
         {
@@ -39,6 +44,7 @@ namespace Casasoft.Turmiti
         public TurmitiForm(string filename) : this()
         {
             machine = new(filename);
+            saveName = Path.Combine(ConfigurationManager.AppSettings["SavePath"], "Turmiti_");
             ClientSize = new(machine.MaxX, machine.MaxY);
             g = CreateGraphics();
         }
@@ -64,6 +70,10 @@ namespace Casasoft.Turmiti
                     }
                     break;
 
+                case Keys.S:
+                    Save();
+                    break;
+
                 default:
                     break;
             }     
@@ -78,6 +88,34 @@ namespace Casasoft.Turmiti
             }
         }
 
-        private Brush[] colorTable = { Brushes.Black,  Brushes.Red, Brushes.Blue, Brushes.White };                  
+        private Brush[] colorTable = { Brushes.White, Brushes.Red, Brushes.Blue, Brushes.Black };         
+        
+        private void Save()
+        {
+            Bitmap b = PrintClientRectangleToImage();
+            b.Save(saveName+ DateTime.Now.ToString("yyyy-MM-dd_HHmmss")+".png", ImageFormat.Png);
+        }
+
+        const int SRCCOPY = 0xCC0020;
+        [DllImport("gdi32.dll")]
+        static extern int BitBlt(IntPtr hdc, int x, int y, int cx, int cy,
+            IntPtr hdcSrc, int x1, int y1, int rop);
+
+        private Bitmap PrintClientRectangleToImage()
+        {
+            Bitmap bmp = new (ClientSize.Width, ClientSize.Height);
+            using (var bmpGraphics = Graphics.FromImage(bmp))
+            {
+                var bmpDC = bmpGraphics.GetHdc();
+                using (Graphics formGraphics = Graphics.FromHwnd(this.Handle))
+                {
+                    var formDC = formGraphics.GetHdc();
+                    BitBlt(bmpDC, 0, 0, ClientSize.Width, ClientSize.Height, formDC, 0, 0, SRCCOPY);
+                    formGraphics.ReleaseHdc(formDC);
+                }
+                bmpGraphics.ReleaseHdc(bmpDC);
+            }
+            return bmp;
+        }
     }
 }
