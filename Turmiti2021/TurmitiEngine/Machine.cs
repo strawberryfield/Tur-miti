@@ -29,10 +29,12 @@ namespace Casasoft.Turmiti.Engine
         public int[,] World { get; set; }
         public int MaxX { get; init; }
         public int MaxY { get; init; }
+        public bool IsSphere { get; set; }
 
         private int stato = 1;
         public int currentX { get; private set; }
         public int currentY { get; private set; }
+
         private int dirX = 0;
         private int dirY = 1;
         private int nextX;
@@ -49,6 +51,11 @@ namespace Casasoft.Turmiti.Engine
             nextX = MaxX / 2;
             nextY = MaxY / 2;
             nextToCurrent();
+        }
+
+        public Machine(string filename, bool isSphere) : this(filename)
+        {
+            IsSphere = isSphere;
         }
 
         private void nextToCurrent()
@@ -94,10 +101,18 @@ namespace Casasoft.Turmiti.Engine
             nextY = currentY + dirY;
 
             // bounds check
+            if (nextY < 0)
+            {
+                nextY += MaxY;
+                if (IsSphere) nextX += MaxX / 2;
+            }
+            if (nextY >= MaxY)
+            {
+                nextY -= MaxY;
+                if (IsSphere) nextX += MaxX / 2;
+            }
             if (nextX < 0) nextX += MaxX;
             if (nextX >= MaxX) nextX -= MaxX;
-            if (nextY < 0) nextY += MaxY;
-            if (nextY >= MaxY) nextY -= MaxY;
         }
 
         private void swapDir()

@@ -41,9 +41,9 @@ namespace Casasoft.Turmiti
             InitializeComponent();
         }
 
-        public TurmitiForm(string filename) : this()
+        public TurmitiForm(string filename, bool isSphere) : this()
         {
-            machine = new(filename);
+            machine = new(filename, isSphere);
             saveName = Path.Combine(ConfigurationManager.AppSettings["SavePath"], "Turmiti_");
             ClientSize = new(machine.MaxX, machine.MaxY);
             g = CreateGraphics();

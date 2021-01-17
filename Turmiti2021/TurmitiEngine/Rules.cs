@@ -48,6 +48,6 @@ namespace Casasoft.Turmiti.Engine
             }
         }
 
-        public Rule Get(int status, int color) => matrix[status][color];
+        public Rule Get(int status, int color) => matrix[status-1][color];
     }
 }

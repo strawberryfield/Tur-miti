@@ -20,9 +20,51 @@
 // If not, see <http://www.gnu.org/licenses/>.
 
 using Casasoft.Turmiti;
+using Mono.Options;
+using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Windows.Forms;
+
+string ExeName = Path.GetFileNameWithoutExtension(AppDomain.CurrentDomain.FriendlyName);
+bool ShouldShowHelp = false;
+bool OnSphere = false;
+List<string> FilesList;
+
+OptionSet Options = new OptionSet
+    {
+        { "sphere", "map the world over a sphere (default torus)", o => OnSphere = o != null },
+        { "help", "prints this message and exit", o =>  ShouldShowHelp = o != null },
+    };
+
+try
+{
+    FilesList = Options.Parse(args);
+}
+catch (OptionException e)
+{
+    MessageBox.Show($"{ExeName}: {e.Message}\nTry '{ExeName} --help' for more informations.");
+    return 1;
+}
+
+if(FilesList == null || FilesList.Count == 0)
+{
+    MessageBox.Show("No input file!");
+    return 1;
+}
+
+if (ShouldShowHelp)
+{
+    Console.WriteLine("Casasoft Tur-miti edition 2021");
+    Console.WriteLine("Copyright 1989,2021 Roberto Ceccarelli - Casasoft\n");
+    Console.WriteLine($"Usage: {ExeName} [options] tablename");
+    Console.WriteLine("\nOptions:");
+    Options.WriteOptionDescriptions(Console.Out);
+    return 0;
+}
 
 Application.SetHighDpiMode(HighDpiMode.SystemAware);
 Application.EnableVisualStyles();
 Application.SetCompatibleTextRenderingDefault(false);
-Application.Run(new TurmitiForm(args[0]));
+Application.Run(new TurmitiForm(FilesList[0], OnSphere));
+return 0;
