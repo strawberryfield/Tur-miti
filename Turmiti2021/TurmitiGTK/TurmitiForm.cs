@@ -32,6 +32,7 @@ namespace Casasoft.Turmiti.GTK
         private Machine machine;
         private ImageSurface s;
         private Image img;
+        Context cr;
         private string saveName;
         private System.ComponentModel.BackgroundWorker backgroundWorker;
 
@@ -65,7 +66,7 @@ namespace Casasoft.Turmiti.GTK
             Resize(machine.MaxX, machine.MaxY);
             s = new(Format.RGB24, machine.MaxX, machine.MaxY);
             img = new(s);
-            Context cr = new(s);
+            cr = new(s);
             cr.SetSourceColor(colorTable[0]);
             cr.Rectangle(0, 0, machine.MaxX, machine.MaxY);
             cr.Fill();
@@ -95,7 +96,9 @@ namespace Casasoft.Turmiti.GTK
                     }
                     break;
 
+                case Gdk.Key.s:
                 case Gdk.Key.S:
+                    Save();
                     break;
 
                 default:
@@ -110,7 +113,6 @@ namespace Casasoft.Turmiti.GTK
             while (!backgroundWorker.CancellationPending)
             {
                 machine.Next();
-                Context cr = new(s);
                 cr.SetSourceColor(colorTable[machine.CurrentColor]);
                 cr.Rectangle(machine.currentX, machine.currentY, 1, 1);
                 cr.Fill();
@@ -118,5 +120,9 @@ namespace Casasoft.Turmiti.GTK
             }
         }
 
+        private void Save()
+        {
+            s.WriteToPng(saveName + DateTime.Now.ToString("yyyy-MM-dd_HHmmss") + ".png");
+        }
     }
 }
