@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "TurmitiGTK": {
+      "commandName": "Project",
+      "commandLineArgs": "C:\\projects\\Turmiti\\Turmiti2021\\turmiti\\examples\\ex6.tab"
+    }
+  }
+}
