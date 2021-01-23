@@ -104,12 +104,20 @@ namespace Casasoft.Turmiti.Engine
             if (nextY < 0)
             {
                 nextY += MaxY;
-                if (IsSphere) nextX += MaxX / 2;
+                if (IsSphere)
+                {
+                    nextX += MaxX / 2;
+                    chs(ref dirY);
+                }
             }
             if (nextY >= MaxY)
             {
                 nextY -= MaxY;
-                if (IsSphere) nextX += MaxX / 2;
+                if (IsSphere)
+                {
+                    nextX += MaxX / 2;
+                    chs(ref dirY);
+                }
             }
             if (nextX < 0) nextX += MaxX;
             if (nextX >= MaxX) nextX -= MaxX;
