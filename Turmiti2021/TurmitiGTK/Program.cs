@@ -65,13 +65,8 @@ if (ShouldShowHelp)
     return 0;
 }
 
-Window myWin = new TurmitiForm("Turmiti/GTK#", FilesList[0], OnSphere);
-myWin.Destroyed += delegate
-{
-    Application.Quit();
-};
+TurmitiForm myWin = new("Casasoft Turmiti/GTK#", FilesList[0], OnSphere);
 myWin.ShowAll();
-
 Application.Run();
 return 0;
 

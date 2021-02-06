@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\GTK_Common\GTK_Common.csproj" />
     <ProjectReference Include="..\TurmitiEngine\TurmitiEngine.csproj" />
   </ItemGroup>
 

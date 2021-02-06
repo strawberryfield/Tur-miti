@@ -1,14 +1,13 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
-    <AssemblyName>Casasoft.Turmiti.Engine</AssemblyName>
-    <RootNamespace>Casasoft.Turmiti.Engine</RootNamespace>
+    <RootNamespace>Casasoft.Life.Engine</RootNamespace>
+    <AssemblyName>Casasoft.Life.Engine</AssemblyName>
     <Authors>Roberto Ceccarelli - Casasoft</Authors>
-    <Company>Roberto Ceccarelli - Casasoft</Company>
-    <Product>Casasoft Turmiti</Product>
-    <Description>Macchina di Turing Bidimensionale</Description>
-    <Copyright>copyright (c) 1989,2021 Roberto Ceccarelli - Casasoft</Copyright>
+    <Company>Casasoft</Company>
+    <Product>Casasoft Life</Product>
+    <Copyright>copyright (c) 2021 Roberto Ceccarelli - Casasoft</Copyright>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <RepositoryUrl>https://github.com/strawberryfield/Tur-miti</RepositoryUrl>
     <RepositoryType>git</RepositoryType>

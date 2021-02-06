@@ -2,27 +2,27 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
-    <AssemblyName>Casasoft.Turmiti.Engine</AssemblyName>
-    <RootNamespace>Casasoft.Turmiti.Engine</RootNamespace>
+    <RootNamespace>Casasoft.Turmiti.GTK</RootNamespace>
+    <AssemblyName>Casasoft.Turmiti.GTK</AssemblyName>
     <Authors>Roberto Ceccarelli - Casasoft</Authors>
     <Company>Roberto Ceccarelli - Casasoft</Company>
     <Product>Casasoft Turmiti</Product>
-    <Description>Macchina di Turing Bidimensionale</Description>
-    <Copyright>copyright (c) 1989,2021 Roberto Ceccarelli - Casasoft</Copyright>
+    <Copyright>copyright (c) 2021 Roberto Ceccarelli - Casasoft</Copyright>
+    <Description>Common GTK modules</Description>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <RepositoryUrl>https://github.com/strawberryfield/Tur-miti</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="GtkSharp" Version="3.22.25.128" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="..\..\LICENSE">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="System.Configuration.ConfigurationManager" Version="5.0.0" />
   </ItemGroup>
 
 </Project>

@@ -1,14 +1,14 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+    <OutputType>WinExe</OutputType>
     <TargetFramework>net5.0</TargetFramework>
-    <AssemblyName>Casasoft.Turmiti.Engine</AssemblyName>
-    <RootNamespace>Casasoft.Turmiti.Engine</RootNamespace>
+    <RootNamespace>Casasoft.Life</RootNamespace>
     <Authors>Roberto Ceccarelli - Casasoft</Authors>
     <Company>Roberto Ceccarelli - Casasoft</Company>
     <Product>Casasoft Turmiti</Product>
-    <Description>Macchina di Turing Bidimensionale</Description>
-    <Copyright>copyright (c) 1989,2021 Roberto Ceccarelli - Casasoft</Copyright>
+    <Copyright>copyright (c) 2021 Roberto Ceccarelli - Casasoft</Copyright>
+    <Description>Game of Life</Description>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <RepositoryUrl>https://github.com/strawberryfield/Tur-miti</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
@@ -22,7 +22,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="System.Configuration.ConfigurationManager" Version="5.0.0" />
+    <PackageReference Include="GtkSharp" Version="3.22.25.128" />
+    <PackageReference Include="Mono.Options" Version="6.6.0.161" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\GTK_Common\GTK_Common.csproj" />
+    <ProjectReference Include="..\Life engine\LifeEngine.csproj" />
   </ItemGroup>
 
 </Project>

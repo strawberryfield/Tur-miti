@@ -20,6 +20,7 @@
 // If not, see <http://www.gnu.org/licenses/>.
 
 using Cairo;
+using Casasoft.GTK;
 using Casasoft.Turmiti.Engine;
 using Gtk;
 using System;
@@ -27,14 +28,9 @@ using System.Configuration;
 
 namespace Casasoft.Turmiti.GTK
 {
-    public class TurmitiForm : Window
+    public class TurmitiForm : BaseForm
     {
         private Machine machine;
-        private ImageSurface s;
-        private Image img;
-        Context cr;
-        private string saveName;
-        private System.ComponentModel.BackgroundWorker backgroundWorker;
 
         private Color[] colorTable = { new Color(1, 1, 1), new Color(1, 0, 0), new Color(0, 0, 1), new Color(0, 0, 0) };
 
@@ -63,47 +59,8 @@ namespace Casasoft.Turmiti.GTK
             machine = new(filename, isSphere);
             saveName = System.IO.Path.Combine(ConfigurationManager.AppSettings["SavePath"], "Turmiti_");
 
-            Resize(machine.MaxX, machine.MaxY);
-            s = new(Format.RGB24, machine.MaxX, machine.MaxY);
-            img = new(s);
-            cr = new(s);
-            cr.SetSourceColor(colorTable[0]);
-            cr.Rectangle(0, 0, machine.MaxX, machine.MaxY);
-            cr.Fill();
-            Add(img);
-
-            KeyPressEvent += TurmitiForm_KeyPressEvent;
-
-            backgroundWorker = new();
-            backgroundWorker.WorkerSupportsCancellation = true;
+            base.Init(machine.MaxX, machine.MaxY, colorTable[0]);
             backgroundWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(backgroundWorker_DoWork);
-
-        }
-
-        [GLib.ConnectBefore]
-        private void TurmitiForm_KeyPressEvent(object o, KeyPressEventArgs args)
-        {
-            switch (args.Event.Key)
-            {
-                case Gdk.Key.space:
-                    if (backgroundWorker.IsBusy)
-                    {
-                        backgroundWorker.CancelAsync();
-                    }
-                    else
-                    {
-                        backgroundWorker.RunWorkerAsync();
-                    }
-                    break;
-
-                case Gdk.Key.s:
-                case Gdk.Key.S:
-                    Save();
-                    break;
-
-                default:
-                    break;
-            }
         }
 
         private void Init() => Init(string.Empty, false);
@@ -118,11 +75,6 @@ namespace Casasoft.Turmiti.GTK
                 cr.Fill();
                 img.QueueDraw();
             }
-        }
-
-        private void Save()
-        {
-            s.WriteToPng(saveName + DateTime.Now.ToString("yyyy-MM-dd_HHmmss") + ".png");
         }
     }
 }
