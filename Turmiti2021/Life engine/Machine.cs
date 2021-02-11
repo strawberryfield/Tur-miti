@@ -31,10 +31,10 @@ namespace Casasoft.Life.Engine
 
         private int[,] NextWorld;
 
-        public Machine()
+        public Machine(int x, int y)
         {
-            MaxX = int.Parse(ConfigurationManager.AppSettings["Width"]);
-            MaxY = int.Parse(ConfigurationManager.AppSettings["Height"]);
+            MaxX = x;
+            MaxY = y;
             World = new int[MaxX, MaxY];
             NextWorld = new int[MaxX, MaxY];
         }

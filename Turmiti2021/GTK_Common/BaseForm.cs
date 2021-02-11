@@ -21,6 +21,7 @@
 using Cairo;
 using Gtk;
 using System;
+using System.Configuration;
 
 namespace Casasoft.GTK
 {
@@ -100,6 +101,46 @@ namespace Casasoft.GTK
         protected virtual void Save()
         {
             s.WriteToPng(saveName + DateTime.Now.ToString("yyyy-MM-dd_HHmmss") + ".png");
+        }
+
+        protected string GetConfigString(string parname, string pardefault)
+        {
+            string ret;
+            try
+            {
+                ret = ConfigurationManager.AppSettings[parname];
+            }
+            catch
+            {
+                ret = pardefault;
+            }
+
+            if(string.IsNullOrWhiteSpace(ret))
+            {
+                ret = pardefault;
+            }
+
+            return ret;
+        }
+
+        protected int GetConfigInt(string parname, int pardefault)
+        {
+            int ret;
+
+            string sRet = GetConfigString(parname, pardefault.ToString());
+            if(!int.TryParse(sRet, out ret))
+            {
+                ret = pardefault;
+            }
+
+            return ret;
+        }
+
+        protected virtual void Background(int x, int y, Color BackColor)
+        {
+            cr.SetSourceColor(BackColor);
+            cr.Rectangle(0, 0, x, y);
+            cr.Fill();
         }
 
     }
