@@ -22,6 +22,7 @@ using Cairo;
 using Gtk;
 using System;
 using System.Configuration;
+using System.Threading;
 
 namespace Casasoft.GTK
 {
@@ -32,6 +33,8 @@ namespace Casasoft.GTK
         protected Context cr;
         protected string saveName;
         protected System.ComponentModel.BackgroundWorker backgroundWorker;
+
+        private AutoResetEvent bwStoppedEvent = new AutoResetEvent(false);
 
         public BaseForm(IntPtr raw) : base(raw)
         {
@@ -64,7 +67,19 @@ namespace Casasoft.GTK
 
             backgroundWorker = new();
             backgroundWorker.WorkerSupportsCancellation = true;
+            backgroundWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(backgroundWorker_DoWork);
         }
+
+        protected void backgroundWorker_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
+        {
+            while (!backgroundWorker.CancellationPending)
+            {
+                DoWork();
+            }
+            bwStoppedEvent.Set();
+        }
+
+        protected virtual void DoWork() { }
 
         [GLib.ConnectBefore]
         private void BaseForm_KeyPressEvent(object o, KeyPressEventArgs args)
@@ -83,8 +98,19 @@ namespace Casasoft.GTK
                     }
                     else
                     {
+                        bwStoppedEvent.Reset();
                         backgroundWorker.RunWorkerAsync();
                     }
+                    break;
+
+                case Gdk.Key.c:
+                case Gdk.Key.C:
+                    if (backgroundWorker.IsBusy)
+                    {
+                        backgroundWorker.CancelAsync();
+                        bwStoppedEvent.WaitOne();
+                    }
+                    Clear();
                     break;
 
                 case Gdk.Key.s:
@@ -102,6 +128,8 @@ namespace Casasoft.GTK
         {
             s.WriteToPng(saveName + DateTime.Now.ToString("yyyy-MM-dd_HHmmss") + ".png");
         }
+
+        protected virtual void Clear() { }
 
         protected string GetConfigString(string parname, string pardefault)
         {

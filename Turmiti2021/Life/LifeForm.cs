@@ -75,7 +75,6 @@ namespace Casasoft.Life
             //machine.World[11, 8] = 1;
 
             ShowGeneration();
-            backgroundWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(backgroundWorker_DoWork);
 
         }
 
@@ -91,13 +90,10 @@ namespace Casasoft.Life
             args.RetVal = true;
         }
 
-        protected void backgroundWorker_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
+        protected override void DoWork()
         {
-            while (!backgroundWorker.CancellationPending)
-            {
-                machine.NextGeneration();
-                ShowGeneration();
-            }
+            machine.NextGeneration();
+            ShowGeneration();
         }
 
         protected void ShowGeneration()
@@ -140,7 +136,12 @@ namespace Casasoft.Life
                 cr.Rectangle(0, y, MaxX, 1);
                 cr.Fill();
             }
+        }
 
+        protected override void Clear()
+        {
+            machine.Clear();
+            ShowGeneration();
         }
     }
 }

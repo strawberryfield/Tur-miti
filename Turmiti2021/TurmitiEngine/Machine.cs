@@ -64,6 +64,20 @@ namespace Casasoft.Turmiti.Engine
             currentY = nextY;
         }
 
+        public void Clear()
+        {
+            for (int x = 0; x < MaxX; x++)
+            {
+                for (int y = 0; y < MaxY; y++)
+                {
+                    World[x, y] = 0;
+                }
+            }
+            nextX = MaxX / 2;
+            nextY = MaxY / 2;
+            nextToCurrent();
+        }
+
         /// <summary>
         /// Switch to next status
         /// </summary>

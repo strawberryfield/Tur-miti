@@ -19,8 +19,6 @@
 // along with Casasoft Turmiti.  
 // If not, see <http://www.gnu.org/licenses/>.
 
-using System.Configuration;
-
 namespace Casasoft.Life.Engine
 {
     public class Machine
@@ -67,5 +65,16 @@ namespace Casasoft.Life.Engine
 
             World = (int[,])NextWorld.Clone();
         }
-    }
+
+        public void Clear()
+        {
+            for (int x = 0; x < MaxX; x++)
+            {
+                for (int y = 0; y < MaxY; y++)
+                {
+                    World[x, y] = 0;
+                }
+            }
+        }
+    } 
 }

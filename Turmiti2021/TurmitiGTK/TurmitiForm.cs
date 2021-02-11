@@ -60,21 +60,26 @@ namespace Casasoft.Turmiti.GTK
             saveName = System.IO.Path.Combine(ConfigurationManager.AppSettings["SavePath"], "Turmiti_");
 
             base.Init(machine.MaxX, machine.MaxY, colorTable[0]);
-            backgroundWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(backgroundWorker_DoWork);
         }
 
         private void Init() => Init(string.Empty, false);
 
-        protected void backgroundWorker_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
+        protected override void DoWork()
         {
-            while (!backgroundWorker.CancellationPending)
-            {
-                machine.Next();
-                cr.SetSourceColor(colorTable[machine.CurrentColor]);
-                cr.Rectangle(machine.currentX, machine.currentY, 1, 1);
-                cr.Fill();
-                img.QueueDraw();
-            }
+            machine.Next();
+            cr.SetSourceColor(colorTable[machine.CurrentColor]);
+            cr.Rectangle(machine.currentX, machine.currentY, 1, 1);
+            cr.Fill();
+            img.QueueDraw();
         }
+
+        protected override void Clear()
+        {
+            machine.Clear();
+            cr.SetSourceColor(colorTable[0]);
+            cr.Rectangle(0, 0, machine.MaxX, machine.MaxY);
+            cr.Fill();
+        }
+
     }
 }
