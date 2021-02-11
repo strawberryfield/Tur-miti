@@ -65,7 +65,6 @@ namespace Casasoft.Life
             machine = new(GetConfigInt("Width", 160), GetConfigInt("Height", 90));
             saveName = System.IO.Path.Combine(ConfigurationManager.AppSettings["SavePath"], "Life_");
             base.Init(machine.MaxX * CellSize, machine.MaxY * CellSize, BackgroundColor);
-            this.ButtonPressEvent += OnMouseClick;
 
             // sample
             //machine.World[10, 10] = 1;
@@ -78,7 +77,7 @@ namespace Casasoft.Life
 
         }
 
-        private void OnMouseClick(object sender, ButtonPressEventArgs args)
+        protected override void OnLeftMouseClick(object sender, ButtonPressEventArgs args)
         {
             int x = (int)(args.Event.X / CellSize);
             int y = (int)(args.Event.Y / CellSize);

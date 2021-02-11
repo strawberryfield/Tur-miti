@@ -33,6 +33,7 @@ namespace Casasoft.GTK
         protected Context cr;
         protected string saveName;
         protected System.ComponentModel.BackgroundWorker backgroundWorker;
+        protected Menu menu;
 
         private AutoResetEvent bwStoppedEvent = new AutoResetEvent(false);
 
@@ -50,7 +51,7 @@ namespace Casasoft.GTK
 
         protected void Init(int MaxX, int MaxY, Color background)
         {
-            Resize(MaxX,MaxY);
+            Resize(MaxX, MaxY);
             s = new(Format.RGB24, MaxX, MaxY);
             img = new(s);
             cr = new(s);
@@ -64,10 +65,53 @@ namespace Casasoft.GTK
             {
                 Application.Quit();
             };
+            menu = new();
+            PopulateMenu();
+            this.PopupMenu += HandlePopupMenu;
+            this.ButtonPressEvent += OnMouseClick;
 
             backgroundWorker = new();
             backgroundWorker.WorkerSupportsCancellation = true;
             backgroundWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(backgroundWorker_DoWork);
+        }
+
+        protected virtual void PopulateMenu()
+        {
+            MenuItem miClear = new Gtk.MenuItem("Clear");
+            miClear.Activated += delegate (object sender, EventArgs e)
+            {
+                DoClear();
+            };
+            menu.Append(miClear);
+
+            MenuItem miStartStop = new Gtk.MenuItem("Start / Stop");
+            miStartStop.Activated += delegate (object sender, EventArgs e)
+            {
+                StartStop();
+            };
+            menu.Append(miStartStop);
+
+            MenuItem miSave = new Gtk.MenuItem("Save");
+            miSave.Activated += delegate (object sender, EventArgs e)
+            {
+                Save();
+            };
+            menu.Append(miSave);
+
+            MenuItem miQuit = new Gtk.MenuItem("Quit");
+            miQuit.Activated += delegate (object sender, EventArgs e)
+            {
+                Application.Quit();
+            };
+            menu.Append(miQuit);
+
+            menu.ShowAll();
+        }
+
+        [GLib.ConnectBefore]
+        public void HandlePopupMenu(object o, PopupMenuArgs args)
+        {           
+            menu.Popup();
         }
 
         protected void backgroundWorker_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
@@ -87,30 +131,36 @@ namespace Casasoft.GTK
             OnKeyPress(args.Event.Key);
         }
 
+        private void OnMouseClick(object sender, ButtonPressEventArgs args)
+        {
+            switch (args.Event.Button)
+            {
+                case 1:
+                    OnLeftMouseClick(sender, args);
+                    break;
+
+                case 3:
+                    menu.Popup();
+                    break;
+
+                default:
+                    break;
+            }
+        }
+
+        protected virtual void OnLeftMouseClick(object sender, ButtonPressEventArgs args) { }
+
         protected virtual void OnKeyPress(Gdk.Key k)
         {
             switch (k)
             {
                 case Gdk.Key.space:
-                    if (backgroundWorker.IsBusy)
-                    {
-                        backgroundWorker.CancelAsync();
-                    }
-                    else
-                    {
-                        bwStoppedEvent.Reset();
-                        backgroundWorker.RunWorkerAsync();
-                    }
+                    StartStop();
                     break;
 
                 case Gdk.Key.c:
                 case Gdk.Key.C:
-                    if (backgroundWorker.IsBusy)
-                    {
-                        backgroundWorker.CancelAsync();
-                        bwStoppedEvent.WaitOne();
-                    }
-                    Clear();
+                    DoClear();
                     break;
 
                 case Gdk.Key.s:
@@ -129,6 +179,29 @@ namespace Casasoft.GTK
             s.WriteToPng(saveName + DateTime.Now.ToString("yyyy-MM-dd_HHmmss") + ".png");
         }
 
+        private void DoClear()
+        {
+            if (backgroundWorker.IsBusy)
+            {
+                backgroundWorker.CancelAsync();
+                bwStoppedEvent.WaitOne();
+            }
+            Clear();
+        }
+
+        private void StartStop()
+        {
+            if (backgroundWorker.IsBusy)
+            {
+                backgroundWorker.CancelAsync();
+            }
+            else
+            {
+                bwStoppedEvent.Reset();
+                backgroundWorker.RunWorkerAsync();
+            }
+        }
+
         protected virtual void Clear() { }
 
         protected string GetConfigString(string parname, string pardefault)
@@ -143,7 +216,7 @@ namespace Casasoft.GTK
                 ret = pardefault;
             }
 
-            if(string.IsNullOrWhiteSpace(ret))
+            if (string.IsNullOrWhiteSpace(ret))
             {
                 ret = pardefault;
             }
@@ -156,7 +229,7 @@ namespace Casasoft.GTK
             int ret;
 
             string sRet = GetConfigString(parname, pardefault.ToString());
-            if(!int.TryParse(sRet, out ret))
+            if (!int.TryParse(sRet, out ret))
             {
                 ret = pardefault;
             }
