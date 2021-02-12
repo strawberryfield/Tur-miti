@@ -77,10 +77,13 @@ namespace Casasoft.Life
 
         }
 
+        private int CellX => (int)(mouseX / CellSize);
+        private int CellY => (int)(mouseY / CellSize);
+
         protected override void OnLeftMouseClick(object sender, ButtonPressEventArgs args)
         {
-            int x = (int)(args.Event.X / CellSize);
-            int y = (int)(args.Event.Y / CellSize);
+            int x = CellX;
+            int y = CellY;
             machine.World[x, y] = 1 - machine.World[x, y];
             cr.SetSourceColor(machine.World[x, y] == 1 ? CellColor : BackgroundColor);
             cr.Rectangle(x * CellSize, y * CellSize, CellSize - 1, CellSize - 1);
@@ -141,6 +144,28 @@ namespace Casasoft.Life
         {
             machine.Clear();
             ShowGeneration();
+        }
+
+        protected override void PopulateMenu()
+        {
+            MenuItem mi = new("3 Cells line");
+            mi.Activated += delegate (object sender, EventArgs e)
+            {
+                machine.InsertRow(CellX, CellY, 3);
+                ShowGeneration();
+            };
+            menu.Append(mi);
+
+            mi = new("2x2 block");
+            mi.Activated += delegate (object sender, EventArgs e)
+            {
+                machine.InsertBlock(CellX, CellY, 2);
+                ShowGeneration();
+            };
+            menu.Append(mi);
+
+            menu.Append(new SeparatorMenuItem());
+            base.PopulateMenu();
         }
     }
 }

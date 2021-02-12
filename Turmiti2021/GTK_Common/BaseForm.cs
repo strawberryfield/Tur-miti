@@ -35,6 +35,9 @@ namespace Casasoft.GTK
         protected System.ComponentModel.BackgroundWorker backgroundWorker;
         protected Menu menu;
 
+        protected double mouseX;
+        protected double mouseY;
+
         private AutoResetEvent bwStoppedEvent = new AutoResetEvent(false);
 
         public BaseForm(IntPtr raw) : base(raw)
@@ -67,38 +70,40 @@ namespace Casasoft.GTK
             };
             menu = new();
             PopulateMenu();
-            this.PopupMenu += HandlePopupMenu;
-            this.ButtonPressEvent += OnMouseClick;
+            PopupMenu += HandlePopupMenu;
+            ButtonPressEvent += OnMouseClick;
 
             backgroundWorker = new();
             backgroundWorker.WorkerSupportsCancellation = true;
             backgroundWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(backgroundWorker_DoWork);
         }
 
+        #region menu
         protected virtual void PopulateMenu()
         {
-            MenuItem miClear = new Gtk.MenuItem("Clear");
+            MenuItem miClear = new("Clear");
             miClear.Activated += delegate (object sender, EventArgs e)
             {
                 DoClear();
             };
             menu.Append(miClear);
 
-            MenuItem miStartStop = new Gtk.MenuItem("Start / Stop");
+            MenuItem miStartStop = new("Start / Stop");
             miStartStop.Activated += delegate (object sender, EventArgs e)
             {
                 StartStop();
             };
             menu.Append(miStartStop);
 
-            MenuItem miSave = new Gtk.MenuItem("Save");
+            MenuItem miSave = new("Save");
             miSave.Activated += delegate (object sender, EventArgs e)
             {
                 Save();
             };
             menu.Append(miSave);
 
-            MenuItem miQuit = new Gtk.MenuItem("Quit");
+            menu.Append(new SeparatorMenuItem());
+            MenuItem miQuit = new("Quit");
             miQuit.Activated += delegate (object sender, EventArgs e)
             {
                 Application.Quit();
@@ -113,7 +118,9 @@ namespace Casasoft.GTK
         {           
             menu.Popup();
         }
+        #endregion
 
+        #region backgroundworker
         protected void backgroundWorker_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
         {
             while (!backgroundWorker.CancellationPending)
@@ -124,15 +131,14 @@ namespace Casasoft.GTK
         }
 
         protected virtual void DoWork() { }
+        #endregion
 
-        [GLib.ConnectBefore]
-        private void BaseForm_KeyPressEvent(object o, KeyPressEventArgs args)
-        {
-            OnKeyPress(args.Event.Key);
-        }
-
+        #region mouse
         private void OnMouseClick(object sender, ButtonPressEventArgs args)
         {
+            mouseX = args.Event.X;
+            mouseY = args.Event.Y;
+
             switch (args.Event.Button)
             {
                 case 1:
@@ -149,6 +155,14 @@ namespace Casasoft.GTK
         }
 
         protected virtual void OnLeftMouseClick(object sender, ButtonPressEventArgs args) { }
+        #endregion
+
+        #region keyboard
+        [GLib.ConnectBefore]
+        private void BaseForm_KeyPressEvent(object o, KeyPressEventArgs args)
+        {
+            OnKeyPress(args.Event.Key);
+        }
 
         protected virtual void OnKeyPress(Gdk.Key k)
         {
@@ -173,7 +187,9 @@ namespace Casasoft.GTK
             }
 
         }
+        #endregion
 
+        #region commands
         protected virtual void Save()
         {
             s.WriteToPng(saveName + DateTime.Now.ToString("yyyy-MM-dd_HHmmss") + ".png");
@@ -201,9 +217,20 @@ namespace Casasoft.GTK
                 backgroundWorker.RunWorkerAsync();
             }
         }
+        #endregion
 
+        #region screen
         protected virtual void Clear() { }
 
+        protected virtual void Background(int x, int y, Color BackColor)
+        {
+            cr.SetSourceColor(BackColor);
+            cr.Rectangle(0, 0, x, y);
+            cr.Fill();
+        }
+        #endregion
+
+        #region config management
         protected string GetConfigString(string parname, string pardefault)
         {
             string ret;
@@ -236,13 +263,7 @@ namespace Casasoft.GTK
 
             return ret;
         }
-
-        protected virtual void Background(int x, int y, Color BackColor)
-        {
-            cr.SetSourceColor(BackColor);
-            cr.Rectangle(0, 0, x, y);
-            cr.Fill();
-        }
+        #endregion
 
     }
 }

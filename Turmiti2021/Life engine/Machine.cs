@@ -76,5 +76,22 @@ namespace Casasoft.Life.Engine
                 }
             }
         }
-    } 
+
+        public void InsertRow(int x, int y, int len)
+        {
+            for (int j = 0; j < len; j++)
+            {
+                World[x + j, y] = 1;
+            }
+        }
+
+        public void InsertBlock(int x, int y, int len)
+        {
+            for (int j = 0; j < len; j++)
+            {
+                InsertRow(x, y + j, len);
+            }
+        }
+
+    }
 }
