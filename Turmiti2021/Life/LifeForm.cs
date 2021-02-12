@@ -148,7 +148,7 @@ namespace Casasoft.Life
 
         protected override void PopulateMenu()
         {
-            MenuItem mi = new("3 Cells line");
+            MenuItem mi = new("Blinker (3 Cells line)");
             mi.Activated += delegate (object sender, EventArgs e)
             {
                 machine.InsertRow(CellX, CellY, 3);
@@ -156,10 +156,34 @@ namespace Casasoft.Life
             };
             menu.Append(mi);
 
-            mi = new("2x2 block");
+            mi = new("Block (2x2 block)");
             mi.Activated += delegate (object sender, EventArgs e)
             {
                 machine.InsertBlock(CellX, CellY, 2);
+                ShowGeneration();
+            };
+            menu.Append(mi);
+
+            mi = new("Glider");
+            mi.Activated += delegate (object sender, EventArgs e)
+            {
+                machine.InsertGlider(CellX, CellY);
+                ShowGeneration();
+            };
+            menu.Append(mi);
+
+            mi = new("Toad");
+            mi.Activated += delegate (object sender, EventArgs e)
+            {
+                machine.InsertToad(CellX, CellY);
+                ShowGeneration();
+            };
+            menu.Append(mi);
+
+            mi = new("Lightweight Spaceship (LWSS)");
+            mi.Activated += delegate (object sender, EventArgs e)
+            {
+                machine.InsertLWSS(CellX, CellY);
                 ShowGeneration();
             };
             menu.Append(mi);

@@ -77,6 +77,9 @@ namespace Casasoft.Life.Engine
             }
         }
 
+        #region patterns
+        // see https://www.conwaylife.com/wiki/Most_common_objects_on_Catagolue
+
         public void InsertRow(int x, int y, int len)
         {
             for (int j = 0; j < len; j++)
@@ -93,5 +96,28 @@ namespace Casasoft.Life.Engine
             }
         }
 
+        public void InsertGlider(int x, int y)
+        {
+            InsertRow(x - 2, y, 3);
+            World[x, y - 1] = 1;
+            World[x - 1, y - 2] = 1;
+        }
+
+        public void InsertToad(int x, int y)
+        {
+            InsertRow(x + 1, y, 3);
+            InsertRow(x, y + 1, 3);
+        }
+
+        public void InsertLWSS(int x, int y)
+        {
+            InsertRow(x - 4, y, 4);
+            World[x - 4, y - 1] = 1;
+            World[x - 4, y - 2] = 1;
+            World[x - 3, y - 3] = 1;
+            World[x, y - 3] = 1;
+            World[x, y - 1] = 1;
+        }
+        #endregion
     }
 }
