@@ -95,6 +95,13 @@ namespace Casasoft.GTK
             };
             menu.Append(miStartStop);
 
+            MenuItem miNext = new("Next");
+            miNext.Activated += delegate (object sender, EventArgs e)
+            {
+                DoWork();
+            };
+            menu.Append(miNext);
+
             MenuItem miSave = new("Save");
             miSave.Activated += delegate (object sender, EventArgs e)
             {
@@ -170,6 +177,11 @@ namespace Casasoft.GTK
             {
                 case Gdk.Key.space:
                     StartStop();
+                    break;
+
+                case Gdk.Key.n:
+                case Gdk.Key.N:
+                    DoWork();
                     break;
 
                 case Gdk.Key.c:
