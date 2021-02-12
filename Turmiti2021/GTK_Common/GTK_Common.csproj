@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
-    <RootNamespace>Casasoft.Turmiti.GTK</RootNamespace>
+    <RootNamespace>Casasoft.GTK</RootNamespace>
     <AssemblyName>Casasoft.Turmiti.GTK</AssemblyName>
     <Authors>Roberto Ceccarelli - Casasoft</Authors>
     <Company>Roberto Ceccarelli - Casasoft</Company>

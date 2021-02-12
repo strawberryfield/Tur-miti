@@ -148,7 +148,36 @@ namespace Casasoft.Life
 
         protected override void PopulateMenu()
         {
-            MenuItem mi = new("Blinker (3 Cells line)");
+            MenuItem mi = new("Line");
+            mi.Activated += delegate (object sender, EventArgs e)
+            {
+                InputBox dialog = new("Line width", this);
+                ResponseType response = (ResponseType)dialog.Run();
+                if (response == ResponseType.Ok)
+                {
+                    machine.InsertRow(CellX, CellY, dialog.IntValue);
+                    ShowGeneration();
+                }
+                dialog.Dispose();
+            };
+            menu.Append(mi);
+
+            mi = new("Square");
+            mi.Activated += delegate (object sender, EventArgs e)
+            {
+                InputBox dialog = new("Square size", this);
+                ResponseType response = (ResponseType)dialog.Run();
+                if (response == ResponseType.Ok)
+                {
+                    machine.InsertBlock(CellX, CellY, dialog.IntValue);
+                    ShowGeneration();
+                }
+                dialog.Dispose();
+            };
+            menu.Append(mi);
+
+            menu.Append(new SeparatorMenuItem());
+            mi = new("Blinker (3 Cells line)");
             mi.Activated += delegate (object sender, EventArgs e)
             {
                 machine.InsertRow(CellX, CellY, 3);
