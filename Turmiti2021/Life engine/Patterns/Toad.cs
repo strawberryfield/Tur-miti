@@ -44,6 +44,8 @@ namespace Casasoft.Life.Engine.Patterns
         {
             Rotate();
             FlipHorizontally();
+            HotPointX = 0;
+            HotPointY = 1;
         }
 
         public Toad(Machine.Direction dir) : this()
@@ -52,7 +54,7 @@ namespace Casasoft.Life.Engine.Patterns
             {
                 case Machine.Direction.North:
                     Rotate();
-                    FlipHorizontally();
+                    FlipVertically();
                     break;
                 case Machine.Direction.East:
                     break;

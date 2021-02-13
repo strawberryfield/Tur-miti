@@ -52,7 +52,7 @@ namespace Casasoft.Life.Engine.Patterns
             switch (dir)
             {
                 case Machine.Direction.NorthEast:
-                    FlipVerically();
+                    FlipVertically();
                     break;
                 case Machine.Direction.SouthEast:
                     break;
@@ -61,7 +61,7 @@ namespace Casasoft.Life.Engine.Patterns
                     break;
                 case Machine.Direction.NorthWest:
                     FlipHorizontally();
-                    FlipVerically();
+                    FlipVertically();
                     break;
                 default:
                     break;

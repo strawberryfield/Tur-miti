@@ -107,7 +107,7 @@ namespace Casasoft.Life.Engine
             {
                 for (int k = 0; k < p.MaxY; k++)
                 {
-                    World[x + j, y + k] = p.Data[j, k];
+                    World[x + j - p.HotPointX, y + k - p.HotPointY] = p.Data[j, k];
                 }
             }
         }

@@ -29,12 +29,16 @@ namespace Casasoft.Life.Engine
         public int[,] Data { get; set; }
         public int MaxX { get; private set; }
         public int MaxY { get; private set; }
+        public int HotPointX { get; protected set; }
+        public int HotPointY { get; protected set; }
 
         public Pattern(int x, int y)
         {
             MaxX = x;
             MaxY = y;
             Data = new int[MaxX, MaxY];
+            HotPointX = 0;
+            HotPointY = 0;
         }
 
         public Pattern(int[,] data)
@@ -42,6 +46,8 @@ namespace Casasoft.Life.Engine
             Data = data;
             MaxX = Data.GetLength(0);
             MaxY = Data.GetLength(1);
+            HotPointX = 0;
+            HotPointY = 0;
         }
 
         public void FlipHorizontally()
@@ -56,9 +62,10 @@ namespace Casasoft.Life.Engine
                 }
             }
             Data = tmp;
+            HotPointX = MaxX - 1 - HotPointX;
         }
 
-        public void FlipVerically()
+        public void FlipVertically()
         {
             int[,] tmp = new int[MaxX, MaxY];
 
@@ -70,6 +77,7 @@ namespace Casasoft.Life.Engine
                 }
             }
             Data = tmp;
+            HotPointY = MaxY - 1 - HotPointY;
         }
 
         public void Rotate()
@@ -84,14 +92,14 @@ namespace Casasoft.Life.Engine
                 }
             }
             Data = tmp;
-            swap();
-        }
 
-        private void swap()
-        {
-            int t = MaxX;
+            int t = HotPointX;
+            HotPointX = MaxY - 1 - HotPointY;
+            HotPointY = t;
+            t = MaxX;
             MaxX = MaxY;
             MaxY = t;
         }
+
     }
 }
