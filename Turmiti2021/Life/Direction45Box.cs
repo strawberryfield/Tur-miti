@@ -19,43 +19,41 @@
 // along with Casasoft Turmiti.  
 // If not, see <http://www.gnu.org/licenses/>.
 
-using Casasoft.GTK;
+using Casasoft.Life.Engine;
 using Gtk;
 using System;
 
 namespace Casasoft.Life
 {
-    public class LineInputBox : InputBox
+    public class Direction45Box : Direction0Box
     {
-        public LineInputBox()
+        public Direction45Box()
         {
         }
 
-        public LineInputBox(IntPtr raw) : base(raw)
+        public Direction45Box(IntPtr raw) : base(raw)
         {
         }
 
-        public LineInputBox(string title, Window parent) : base(title, parent)
+        public Direction45Box(Window parent) : base(parent)
         {
         }
 
-        public LineInputBox(string title, Window parent, DialogFlags flags, params object[] button_data) : 
-            base(title, parent, flags, button_data)
+        public Direction45Box(string title, Window parent) : base(title, parent)
         {
         }
 
-        private RadioButton rbVer;
-
-        public bool IsVertical => rbVer.Active;
-
+        public Direction45Box(string title, Window parent, DialogFlags flags, params object[] button_data) : base(title, parent, flags, button_data)
+        {
+        }
         protected override void AddComponents()
         {
-            base.AddComponents();
-
-            BaseRadio box = new();
-            hbox.PackStart(box, false, false, 0);
-            _ = box.AddButton("Horizontal");
-            rbVer = box.AddButton("Vertical");
+            radio = new();
+            hbox.PackStart(radio, false, false, 0);
+            radio.AddButton(Machine.Direction.NorthEast.ToString());
+            radio.AddButton(Machine.Direction.SouthEast.ToString());
+            radio.AddButton(Machine.Direction.SouthWest.ToString());
+            radio.AddButton(Machine.Direction.NorthWest.ToString());
         }
     }
 }

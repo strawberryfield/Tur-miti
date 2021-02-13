@@ -20,42 +20,44 @@
 // If not, see <http://www.gnu.org/licenses/>.
 
 using Casasoft.GTK;
+using Casasoft.Life.Engine;
 using Gtk;
 using System;
 
 namespace Casasoft.Life
 {
-    public class LineInputBox : InputBox
+    public class Direction0Box : BaseDialogBox
     {
-        public LineInputBox()
+        public Direction0Box()
         {
         }
 
-        public LineInputBox(IntPtr raw) : base(raw)
+        public Direction0Box(IntPtr raw) : base(raw)
         {
         }
 
-        public LineInputBox(string title, Window parent) : base(title, parent)
+        public Direction0Box(string title, Window parent) : base(title, parent)
         {
         }
 
-        public LineInputBox(string title, Window parent, DialogFlags flags, params object[] button_data) : 
-            base(title, parent, flags, button_data)
+        public Direction0Box(string title, Window parent, DialogFlags flags, params object[] button_data) : base(title, parent, flags, button_data)
         {
         }
 
-        private RadioButton rbVer;
+        public Direction0Box(Window parent) : base("Direction", parent) { }
 
-        public bool IsVertical => rbVer.Active;
-
+        protected BaseRadio radio;
         protected override void AddComponents()
         {
-            base.AddComponents();
-
-            BaseRadio box = new();
-            hbox.PackStart(box, false, false, 0);
-            _ = box.AddButton("Horizontal");
-            rbVer = box.AddButton("Vertical");
+            radio = new();
+            hbox.PackStart(radio, false, false, 0); 
+            radio.AddButton(Machine.Direction.North.ToString());
+            radio.AddButton(Machine.Direction.East.ToString());
+            radio.AddButton(Machine.Direction.South.ToString());
+            radio.AddButton(Machine.Direction.West.ToString());
         }
+
+        public Machine.Direction Orientation => 
+            (Machine.Direction)Enum.Parse(typeof(Machine.Direction), radio.Selected);
     }
 }

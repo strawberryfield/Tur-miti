@@ -64,14 +64,7 @@ namespace Casasoft.Life
 
             machine = new(GetConfigInt("Width", 160), GetConfigInt("Height", 90));
             saveName = System.IO.Path.Combine(ConfigurationManager.AppSettings["SavePath"], "Life_");
-            base.Init(machine.MaxX * CellSize, machine.MaxY * CellSize, BackgroundColor);
-
-            // sample
-            //machine.World[10, 10] = 1;
-            //machine.World[11, 10] = 1;
-            //machine.World[12, 10] = 1;
-            //machine.World[12, 9] = 1;
-            //machine.World[11, 8] = 1;
+            Init(machine.MaxX * CellSize, machine.MaxY * CellSize, BackgroundColor);
 
             ShowGeneration();
 
@@ -196,24 +189,43 @@ namespace Casasoft.Life
             mi = new("Glider");
             mi.Activated += delegate (object sender, EventArgs e)
             {
-                machine.InsertGlider(CellX, CellY);
-                ShowGeneration();
+                Direction45Box dialog = new(this);
+                ResponseType response = (ResponseType)dialog.Run();
+                if (response == ResponseType.Ok)
+                {
+                    machine.InsertGlider(CellX, CellY);
+                    ShowGeneration();
+                }
+                dialog.Dispose();
             };
             menu.Append(mi);
 
             mi = new("Toad");
             mi.Activated += delegate (object sender, EventArgs e)
             {
-                machine.InsertToad(CellX, CellY);
-                ShowGeneration();
+                Direction0Box dialog = new(this);
+                ResponseType response = (ResponseType)dialog.Run();
+                if (response == ResponseType.Ok)
+                {
+                    machine.InsertPattern(CellX, CellY, new Engine.Patterns.Toad(dialog.Orientation));
+                    ShowGeneration();
+                }
+                dialog.Dispose();
             };
             menu.Append(mi);
 
             mi = new("Lightweight Spaceship (LWSS)");
             mi.Activated += delegate (object sender, EventArgs e)
             {
-                machine.InsertLWSS(CellX, CellY);
-                ShowGeneration();
+                Direction0Box dialog = new(this);
+                ResponseType response = (ResponseType)dialog.Run();
+                if (response == ResponseType.Ok)
+                {
+                    Machine.Direction dir = dialog.Orientation;
+                    machine.InsertLWSS(CellX, CellY);
+                    ShowGeneration();
+                }
+                dialog.Dispose();
             };
             menu.Append(mi);
 

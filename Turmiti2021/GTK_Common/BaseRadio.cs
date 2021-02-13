@@ -63,5 +63,22 @@ namespace Casasoft.GTK
 
             return ret;
         }
+
+        public string Selected
+        {
+            get
+            {
+                string ret = string.Empty;
+                foreach(var b in radio.Group)
+                {
+                    if(b.Active)
+                    {
+                        ret = b.Label;
+                        break;
+                    }
+                }
+                return ret;
+            }
+        }
     }
 }

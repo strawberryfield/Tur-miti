@@ -101,17 +101,22 @@ namespace Casasoft.Life.Engine
             }
         }
 
+        public void InsertPattern(int x, int y, Pattern p)
+        {
+            for (int j = 0; j < p.MaxX; j++)
+            {
+                for (int k = 0; k < p.MaxY; k++)
+                {
+                    World[x + j, y + k] = p.Data[j, k];
+                }
+            }
+        }
+
         public void InsertGlider(int x, int y)
         {
             InsertRow(x - 2, y, 3);
             World[x, y - 1] = 1;
             World[x - 1, y - 2] = 1;
-        }
-
-        public void InsertToad(int x, int y)
-        {
-            InsertRow(x + 1, y, 3);
-            InsertRow(x, y + 1, 3);
         }
 
         public void InsertLWSS(int x, int y)
