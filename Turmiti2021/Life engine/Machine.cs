@@ -112,13 +112,6 @@ namespace Casasoft.Life.Engine
             }
         }
 
-        public void InsertGlider(int x, int y)
-        {
-            InsertRow(x - 2, y, 3);
-            World[x, y - 1] = 1;
-            World[x - 1, y - 2] = 1;
-        }
-
         public void InsertLWSS(int x, int y)
         {
             InsertRow(x - 4, y, 4);

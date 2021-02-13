@@ -58,6 +58,20 @@ namespace Casasoft.Life.Engine
             Data = tmp;
         }
 
+        public void FlipVerically()
+        {
+            int[,] tmp = new int[MaxX, MaxY];
+
+            for (int x = 0; x < MaxX; x++)
+            {
+                for (int y = 0; y < MaxY; y++)
+                {
+                    tmp[x, y] = Data[x, MaxY - 1 - y];
+                }
+            }
+            Data = tmp;
+        }
+
         public void Rotate()
         {
             int[,] tmp = new int[MaxY, MaxX];
@@ -66,7 +80,7 @@ namespace Casasoft.Life.Engine
             {
                 for (int y = 0; y < MaxY; y++)
                 {
-                    tmp[MaxY-1-y, x] = Data[x, y];
+                    tmp[MaxY - 1 - y, x] = Data[x, y];
                 }
             }
             Data = tmp;

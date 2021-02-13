@@ -170,14 +170,6 @@ namespace Casasoft.Life
             menu.Append(mi);
 
             menu.Append(new SeparatorMenuItem());
-            mi = new("Blinker (3 Cells line)");
-            mi.Activated += delegate (object sender, EventArgs e)
-            {
-                machine.InsertRow(CellX, CellY, 3);
-                ShowGeneration();
-            };
-            menu.Append(mi);
-
             mi = new("Block (2x2 block)");
             mi.Activated += delegate (object sender, EventArgs e)
             {
@@ -186,17 +178,11 @@ namespace Casasoft.Life
             };
             menu.Append(mi);
 
-            mi = new("Glider");
+            mi = new("Blinker (3 Cells line)");
             mi.Activated += delegate (object sender, EventArgs e)
             {
-                Direction45Box dialog = new(this);
-                ResponseType response = (ResponseType)dialog.Run();
-                if (response == ResponseType.Ok)
-                {
-                    machine.InsertGlider(CellX, CellY);
-                    ShowGeneration();
-                }
-                dialog.Dispose();
+                machine.InsertRow(CellX, CellY, 3);
+                ShowGeneration();
             };
             menu.Append(mi);
 
@@ -208,6 +194,20 @@ namespace Casasoft.Life
                 if (response == ResponseType.Ok)
                 {
                     machine.InsertPattern(CellX, CellY, new Engine.Patterns.Toad(dialog.Orientation));
+                    ShowGeneration();
+                }
+                dialog.Dispose();
+            };
+            menu.Append(mi);
+
+            mi = new("Glider");
+            mi.Activated += delegate (object sender, EventArgs e)
+            {
+                Direction45Box dialog = new(this);
+                ResponseType response = (ResponseType)dialog.Run();
+                if (response == ResponseType.Ok)
+                {
+                    machine.InsertPattern(CellX, CellY, new Engine.Patterns.Glider(dialog.Orientation));
                     ShowGeneration();
                 }
                 dialog.Dispose();
