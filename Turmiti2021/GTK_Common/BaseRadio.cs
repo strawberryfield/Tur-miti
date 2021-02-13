@@ -24,37 +24,44 @@ using System;
 
 namespace Casasoft.GTK
 {
-    public class BaseDialogBox : Dialog
+    public class BaseRadio : VBox
     {
-        protected HBox hbox;
+        public RadioButton radio { get; protected set; }
 
-        public BaseDialogBox()
+        public BaseRadio() : this(false, 8)
         {
         }
 
-        public BaseDialogBox(IntPtr raw) : base(raw)
+        public BaseRadio(IntPtr raw) : base(raw)
         {
-        }
-
-        public BaseDialogBox(string title, Window parent, DialogFlags flags, params object[] button_data) : 
-            base(title, parent, flags, button_data)
-        {
-            hbox = new HBox(false, 8);
-            hbox.BorderWidth = 8;
-            ContentArea.PackStart(hbox, false, false, 0);
-
-            Image stock = new Image(Stock.DialogQuestion, IconSize.Dialog);
-            hbox.PackStart(stock, false, false, 0);
-
             AddComponents();
-            hbox.ShowAll();
         }
 
-        public BaseDialogBox(string title, Window parent) :
-            this(title, parent, DialogFlags.DestroyWithParent | DialogFlags.Modal,
-            Gtk.Stock.Ok, ResponseType.Ok, Gtk.Stock.Cancel, ResponseType.Cancel)
-        { }
+        public BaseRadio(bool homogeneous, int spacing) : base(homogeneous, spacing)
+        {
+            BorderWidth = (uint)spacing;
+            AddComponents();
+        }
 
-        protected virtual void AddComponents() { }
+        public virtual void AddComponents() { }
+
+        public RadioButton AddButton(string caption)
+        {
+            RadioButton ret;
+
+            if (radio == null)
+            {
+                radio = new(caption);
+                radio.Active = true;
+                ret = radio;
+            }
+            else
+            {
+                ret = new(radio, caption);
+            }
+            PackStart(ret, true, true, 0);
+
+            return ret;
+        }
     }
 }

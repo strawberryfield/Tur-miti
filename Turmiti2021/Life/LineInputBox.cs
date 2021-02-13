@@ -1,4 +1,5 @@
-﻿// http://strawberryfield.altervista.org 
+﻿// copyright (c) 2021 Roberto Ceccarelli - Casasoft
+// http://strawberryfield.altervista.org 
 // 
 // This file is part of Casasoft Turmiti
 // https://github.com/strawberryfield/Tur-miti
@@ -52,15 +53,10 @@ namespace Casasoft.Life
         {
             base.AddComponents();
 
-            VBox box = new(false, 8);
-            box.BorderWidth = 8;
+            BaseRadio box = new();
             hbox.PackStart(box, false, false, 0);
-
-            rbHor = new(null, "Horizontal");
-            rbHor.Active = true;
-            box.PackStart(rbHor, true, true, 0);
-            rbVer = new(rbHor, "Vertical");
-            box.PackStart(rbVer, true, true, 0);
+            rbHor = box.AddButton("Horizontal");
+            rbVer = box.AddButton("Vertical");
         }
     }
 }

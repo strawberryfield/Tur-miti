@@ -1,4 +1,5 @@
-﻿// http://strawberryfield.altervista.org 
+﻿// copyright (c) 2021 Roberto Ceccarelli - Casasoft
+// http://strawberryfield.altervista.org 
 // 
 // This file is part of Casasoft Turmiti
 // https://github.com/strawberryfield/Tur-miti
