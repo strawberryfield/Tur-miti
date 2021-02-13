@@ -18,53 +18,49 @@
 // along with Casasoft Turmiti.  
 // If not, see <http://www.gnu.org/licenses/>.
 
+using Casasoft.GTK;
 using Gtk;
 using System;
 
-namespace Casasoft.GTK
+namespace Casasoft.Life
 {
-    public class InputBox : BaseDialogBox
+    public class LineInputBox : InputBox
     {
-        private Label label;
-        private Entry entry;
-
-        public string Value => entry.Text;
-        public int IntValue
-        {
-            get
-            {
-                int ret;
-                if (!int.TryParse(entry.Text, out ret))
-                {
-                    ret = 0;
-                }
-                return ret;
-            }
-        }
-
-        public InputBox()
+        public LineInputBox()
         {
         }
 
-        public InputBox(IntPtr raw) : base(raw)
+        public LineInputBox(IntPtr raw) : base(raw)
         {
         }
 
+        public LineInputBox(string title, Window parent) : base(title, parent)
+        {
+        }
 
-        public InputBox(string title, Window parent, DialogFlags flags, params object[] button_data) :
+        public LineInputBox(string title, Window parent, DialogFlags flags, params object[] button_data) : 
             base(title, parent, flags, button_data)
-        { }
+        {
+        }
 
-        public InputBox(string title, Window parent) : base(title, parent)
-        { }
+        private RadioButton rbHor;
+        private RadioButton rbVer;
+
+        public bool IsVertical => rbVer.Active;
 
         protected override void AddComponents()
         {
-            label = new("Value:");
-            hbox.PackStart(label, false, false, 0);
-            entry = new();
-            hbox.PackStart(entry, false, false, 0);
-            label.MnemonicWidget = entry;
+            base.AddComponents();
+
+            VBox box = new(false, 8);
+            box.BorderWidth = 8;
+            hbox.PackStart(box, false, false, 0);
+
+            rbHor = new(null, "Horizontal");
+            rbHor.Active = true;
+            box.PackStart(rbHor, true, true, 0);
+            rbVer = new(rbHor, "Vertical");
+            box.PackStart(rbVer, true, true, 0);
         }
     }
 }

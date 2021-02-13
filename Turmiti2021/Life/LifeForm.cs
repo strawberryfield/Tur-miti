@@ -151,11 +151,11 @@ namespace Casasoft.Life
             MenuItem mi = new("Line");
             mi.Activated += delegate (object sender, EventArgs e)
             {
-                InputBox dialog = new("Line width", this);
+                LineInputBox dialog = new("Line width", this);
                 ResponseType response = (ResponseType)dialog.Run();
                 if (response == ResponseType.Ok)
                 {
-                    machine.InsertRow(CellX, CellY, dialog.IntValue);
+                    machine.InsertRow(CellX, CellY, dialog.IntValue, dialog.IsVertical);
                     ShowGeneration();
                 }
                 dialog.Dispose();

@@ -29,6 +29,8 @@ namespace Casasoft.Life.Engine
 
         private int[,] NextWorld;
 
+        public enum Direction { North, East, South, West, NorthEast, SouthEast, SouthWest, NorthWest }
+
         public Machine(int x, int y)
         {
             MaxX = x;
@@ -80,11 +82,14 @@ namespace Casasoft.Life.Engine
         #region patterns
         // see https://www.conwaylife.com/wiki/Most_common_objects_on_Catagolue
 
-        public void InsertRow(int x, int y, int len)
+        public void InsertRow(int x, int y, int len, bool vertical = false)
         {
             for (int j = 0; j < len; j++)
             {
-                World[x + j, y] = 1;
+                if (vertical)
+                    World[x, y + j] = 1;
+                else
+                    World[x + j, y] = 1;
             }
         }
 
