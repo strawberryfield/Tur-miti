@@ -200,6 +200,14 @@ namespace Casasoft.Life
             };
             menu.Append(mi);
 
+            mi = new("Pulsar");
+            mi.Activated += delegate (object sender, EventArgs e)
+            {
+                machine.InsertPattern(CellX, CellY, new Engine.Patterns.Pulsar());
+                ShowGeneration();
+            };
+            menu.Append(mi);
+
             mi = new("Glider");
             mi.Activated += delegate (object sender, EventArgs e)
             {
