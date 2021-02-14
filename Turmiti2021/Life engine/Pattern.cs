@@ -29,8 +29,8 @@ namespace Casasoft.Life.Engine
         public int[,] Data { get; set; }
         public int MaxX { get; private set; }
         public int MaxY { get; private set; }
-        public int HotPointX { get; protected set; }
-        public int HotPointY { get; protected set; }
+        public int HotPointX { get; set; }
+        public int HotPointY { get; set; }
 
         public Pattern(int x, int y)
         {
@@ -80,6 +80,9 @@ namespace Casasoft.Life.Engine
             HotPointY = MaxY - 1 - HotPointY;
         }
 
+        /// <summary>
+        /// Rotate the pattern 90 deg clockwise
+        /// </summary>
         public void Rotate()
         {
             int[,] tmp = new int[MaxY, MaxX];

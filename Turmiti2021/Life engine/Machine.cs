@@ -111,16 +111,6 @@ namespace Casasoft.Life.Engine
                 }
             }
         }
-
-        public void InsertLWSS(int x, int y)
-        {
-            InsertRow(x - 4, y, 4);
-            World[x - 4, y - 1] = 1;
-            World[x - 4, y - 2] = 1;
-            World[x - 3, y - 3] = 1;
-            World[x, y - 3] = 1;
-            World[x, y - 1] = 1;
-        }
         #endregion
     }
 }

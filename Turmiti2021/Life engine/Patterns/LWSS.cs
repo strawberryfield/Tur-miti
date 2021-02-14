@@ -22,52 +22,53 @@
 namespace Casasoft.Life.Engine.Patterns
 {
     /// <summary>
-    /// Implements a Glider
+    /// Implements a Lightweight Space Ship
     /// </summary>
     /// <remarks>
-    /// <see cref="https://www.conwaylife.com/wiki/Glider"/>
+    /// <see cref="https://www.conwaylife.com/wiki/Lightweight_spaceship"/>
     /// </remarks>
-    public class Glider : Pattern
+    public class LWSS : Pattern
     {
-        public Glider(int[,] data) : base(data)
+        public LWSS(int[,] data) : base(data)
         {
         }
 
-        public Glider(int x, int y) : base(x, y)
+        public LWSS(int x, int y) : base(x, y)
         {
         }
 
-        public Glider() : this(new int[,] {
-            { 0, 1, 0 },
-            { 0, 0, 1 },
-            { 1, 1, 1 }
+        public LWSS() : this(new int[,] {
+            { 0, 1, 0, 0, 1 },
+            { 1, 0, 0, 0, 0 },
+            { 1, 0, 0, 0, 1 },
+            { 1, 1, 1, 1, 0 },
         })
         {
             Rotate();
-            FlipHorizontally();
-            HotPointX = 2;
-            HotPointY = 2;
+            HotPointX = 4;
+            HotPointY = 3;
         }
 
-        public Glider(Machine.Direction dir) : this()
+        public LWSS(Machine.Direction dir) : this()
         {
             switch (dir)
             {
-                case Machine.Direction.NorthEast:
+                case Machine.Direction.North:
+                    Rotate();
                     FlipVertically();
                     break;
-                case Machine.Direction.SouthEast:
+                case Machine.Direction.East:
                     break;
-                case Machine.Direction.SouthWest:
-                    FlipHorizontally();
+                case Machine.Direction.South:
+                    Rotate();
                     break;
-                case Machine.Direction.NorthWest:
+                case Machine.Direction.West:
                     FlipHorizontally();
-                    FlipVertically();
                     break;
                 default:
                     break;
             }
         }
+
     }
 }

@@ -221,8 +221,7 @@ namespace Casasoft.Life
                 ResponseType response = (ResponseType)dialog.Run();
                 if (response == ResponseType.Ok)
                 {
-                    Machine.Direction dir = dialog.Orientation;
-                    machine.InsertLWSS(CellX, CellY);
+                    machine.InsertPattern(CellX, CellY, new Engine.Patterns.LWSS(dialog.Orientation));
                     ShowGeneration();
                 }
                 dialog.Dispose();
